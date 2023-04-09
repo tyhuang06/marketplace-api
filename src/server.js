@@ -2,7 +2,9 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import http from 'http';
+import session from 'express-session';
 import connectDB from './config/db.js';
+import authRoutes from './routes/authRoutes.js';
 
 const PORT = process.env.PORT || 8000;
 dotenv.config();
@@ -21,12 +23,20 @@ app.use(
 	})
 );
 
+// Enable session management
+// Should change to JWT token in the future
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: true,
+		saveUninitialized: true,
+	})
+);
+
 // To accept JSON data in the body
 app.use(express.json());
 
-// Test route
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+// Routes
+app.use('/auth', authRoutes);
 
 server.listen(PORT, console.log(`Server listening on port ${PORT}...`));

@@ -15,8 +15,16 @@ const UserSchema = new mongoose.Schema({
 	isBuyer: { type: Boolean, default: true },
 	storeInfo: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Seller',
+		ref: 'Store',
+		default: null,
 	},
+	following: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			default: null,
+		},
+	],
 });
 
 UserSchema.methods.matchPassword = async function (enteredPassword) {
