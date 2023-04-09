@@ -1,7 +1,18 @@
 {
-  "name": "marketplace-server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Jamie Huang",
-  "license": "MIT"
+	"name": "marketplace-server",
+	"version": "1.0.0",
+	"main": "server.js",
+	"author": "Jamie Huang",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon src/server.js",
+		"start": "node src/server.js"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"nodemon": "^2.0.22"
+	}
 }
