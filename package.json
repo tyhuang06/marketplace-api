@@ -1,0 +1,7 @@
+{
+  "name": "marketplace-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jamie Huang",
+  "license": "MIT"
+}
