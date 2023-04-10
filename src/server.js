@@ -10,6 +10,7 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import usedProductRoutes from './routes/usedProductRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 const PORT = process.env.PORT || 8000;
 dotenv.config();
@@ -48,5 +49,6 @@ app.use('/review', reviewRoutes);
 app.use('/usedproduct', usedProductRoutes);
 app.use('/cart', cartRoutes);
 app.use('/user', userRoutes);
+app.use('/order', orderRoutes);
 
 server.listen(PORT, console.log(`Server listening on port ${PORT}...`));

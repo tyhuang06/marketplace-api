@@ -8,8 +8,9 @@ const OrderSchema = new mongoose.Schema({
 			ref: 'UsedProduct',
 		},
 	],
-	total: { type: Number, required: true },
-	status: { type: String, required: true },
+	totalPrice: { type: Number, required: true },
+	shippingAddress: { type: String, required: true },
+	status: { type: String, default: 'Pending' },
 });
 
 const OrderModel = mongoose.model('Order', OrderSchema);
