@@ -11,12 +11,6 @@ const StoreSchema = new mongoose.Schema({
 		},
 	],
 	storeRating: { type: Number, default: 0 },
-	reviews: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Review',
-		},
-	],
 });
 
 const StoreModel = mongoose.model('Store', StoreSchema);

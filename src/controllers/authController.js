@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import UserModel from '../models/UserModel.js';
 
+// @desc    Register a new user
+// @route   POST /auth/register
+// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
 	const {
 		username,
@@ -44,6 +47,9 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc    Login a user
+// @route   POST /auth/login
+// @access  Public
 const loginUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 
@@ -58,6 +64,9 @@ const loginUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc    Logout a user
+// @route   POST /auth/logout
+// @access  Private
 const logoutUser = asyncHandler(async (req, res) => {
 	req.session.destroy();
 	res.clearCookie('connect.sid');

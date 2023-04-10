@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import StoreModel from '../models/storeModel.js';
 import UserModel from '../models/UserModel.js';
 
+// helper function
 const updateUserStoreInfoHelper = asyncHandler(async (userId, storeId) => {
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		userId,
@@ -16,6 +17,9 @@ const updateUserStoreInfoHelper = asyncHandler(async (userId, storeId) => {
 	}
 });
 
+// @desc    Create a new store
+// @route   POST /store
+// @access  Private (seller)
 const createStore = asyncHandler(async (req, res) => {
 	const { storeName, storeDescription } = req.body;
 	const store = await StoreModel.create({
@@ -42,6 +46,9 @@ const createStore = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc    Get store by id
+// @route   GET /store/:id
+// @access  Public
 const getStore = asyncHandler(async (req, res) => {
 	const store = await StoreModel.findById(req.params.id);
 
