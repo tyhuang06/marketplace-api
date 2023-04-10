@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import storeRoutes from './routes/storeRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
+import usedProductRoutes from './routes/usedProductRoutes.js';
 
 const PORT = process.env.PORT || 8000;
 dotenv.config();
@@ -42,5 +43,6 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/store', storeRoutes);
 app.use('/review', reviewRoutes);
+app.use('/usedproduct', usedProductRoutes);
 
 server.listen(PORT, console.log(`Server listening on port ${PORT}...`));

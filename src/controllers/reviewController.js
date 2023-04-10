@@ -22,8 +22,22 @@ const createReview = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc	Get review by id
+// @route	GET /review/:id
+// @access	Public
+const getReviewById = asyncHandler(async (req, res) => {
+	const review = await ReviewModel.findById(req.params.id);
+
+	if (review) {
+		res.json(review);
+	} else {
+		res.status(404);
+		throw new Error('Review not found!');
+	}
+});
+
 // @desc    Get reviews by store id
-// @route   GET /review/:id
+// @route   GET /review/store/:id
 // @access  Public
 const getReviewsByStoreId = asyncHandler(async (req, res) => {
 	const reviews = await ReviewModel.find({ storeId: req.params.id });
@@ -85,6 +99,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 
 export {
 	createReview,
+	getReviewById,
 	getReviewsByStoreId,
 	getReviewsByUserId,
 	updateReview,
