@@ -40,7 +40,9 @@ const getReviewById = asyncHandler(async (req, res) => {
 // @route   GET /review/store/:id
 // @access  Public
 const getReviewsByStoreId = asyncHandler(async (req, res) => {
-	const reviews = await ReviewModel.find({ storeId: req.params.id });
+	const reviews = await ReviewModel.find({ storeId: req.params.id }).populate(
+		'reviewer'
+	);
 
 	if (reviews) {
 		res.json(reviews);
@@ -54,7 +56,9 @@ const getReviewsByStoreId = asyncHandler(async (req, res) => {
 // @route   GET /review/user/:id
 // @access  Public
 const getReviewsByUserId = asyncHandler(async (req, res) => {
-	const reviews = await ReviewModel.find({ reviewer: req.params.id });
+	const reviews = await ReviewModel.find({
+		reviewer: req.params.id,
+	}).populate('storeId');
 
 	if (reviews) {
 		res.json(reviews);

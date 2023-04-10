@@ -73,7 +73,9 @@ const removeItemFromCart = asyncHandler(async (req, res) => {
 // @route   GET /cart
 // @access  Private
 const getCartByUserId = asyncHandler(async (req, res) => {
-	const cart = await CartModel.findOne({ user: req.session.user._id });
+	const cart = await CartModel.findOne({
+		user: req.session.user._id,
+	}).populate('items');
 
 	if (cart) {
 		res.json(cart);
