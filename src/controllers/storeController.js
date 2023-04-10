@@ -3,7 +3,7 @@ import StoreModel from '../models/storeModel.js';
 import UserModel from '../models/UserModel.js';
 
 // helper function
-const updateUserStoreInfoHelper = asyncHandler(async (userId, storeId) => {
+/* const updateUserStoreInfoHelper = asyncHandler(async (userId, storeId) => {
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		userId,
 		{ storeInfo: storeId },
@@ -15,21 +15,21 @@ const updateUserStoreInfoHelper = asyncHandler(async (userId, storeId) => {
 	} else {
 		throw new Error('User update store info failed!');
 	}
-});
+}); */
 
 // @desc    Create a new store
 // @route   POST /store
-// @access  Private (seller)
+// @access  Public
 const createStore = asyncHandler(async (req, res) => {
-	const { storeName, storeDescription } = req.body;
+	const { storeName, storeDescription, ownerId } = req.body;
 	const store = await StoreModel.create({
-		owner: req.session.user._id,
+		owner: ownerId,
 		storeName,
 		storeDescription,
 	});
 
 	if (store) {
-		// update user model with store info
+		/* // update user model with store info
 		const user = await UserModel.findById(store.owner);
 
 		if (user) {
@@ -37,7 +37,7 @@ const createStore = asyncHandler(async (req, res) => {
 		} else {
 			res.status(400);
 			throw new Error('User not found!');
-		}
+		} */
 
 		res.status(201).json(store);
 	} else {
@@ -49,8 +49,24 @@ const createStore = asyncHandler(async (req, res) => {
 // @desc    Get store by id
 // @route   GET /store/:id
 // @access  Public
-const getStore = asyncHandler(async (req, res) => {
+const getStoreById = asyncHandler(async (req, res) => {
 	const store = await StoreModel.findById(req.params.id);
+
+	if (store) {
+		res.json(store);
+	} else {
+		res.status(404);
+		throw new Error('Store not found!');
+	}
+});
+
+// @desc	Get store by owner id
+// @route	GET /store/owner/:id
+// @access	Public
+const getStoreByOwnerId = asyncHandler(async (req, res) => {
+	const store = await StoreModel.findOne({ owner: req.params.id }).populate(
+		'owner'
+	);
 
 	if (store) {
 		res.json(store);
@@ -87,4 +103,4 @@ const updateStore = asyncHandler(async (req, res) => {
 	}
 });
 
-export { createStore, getStore, updateStore };
+export { createStore, getStoreById, updateStore, getStoreByOwnerId };

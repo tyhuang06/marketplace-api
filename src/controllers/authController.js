@@ -66,7 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // @desc    Logout a user
 // @route   POST /auth/logout
-// @access  Private
+// @access  Public
 const logoutUser = asyncHandler(async (req, res) => {
 	req.session.destroy();
 	res.clearCookie('connect.sid');
