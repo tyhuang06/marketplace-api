@@ -1,6 +1,20 @@
 import asyncHandler from 'express-async-handler';
 import OrderModel from '../models/orderModel.js';
 
+// @desc	Get all orders
+// @route	GET /order
+// @access	Private (Admin)
+const getOrders = asyncHandler(async (req, res) => {
+	const orders = await OrderModel.find({}).populate('items');
+
+	if (orders) {
+		res.json(orders);
+	} else {
+		res.status(404);
+		throw new Error('No orders found!');
+	}
+});
+
 // @desc    Create a new order
 // @route   POST /order
 // @access  Private
@@ -93,6 +107,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
 });
 
 export {
+	getOrders,
 	createOrder,
 	getOrderById,
 	getOrdersByUserId,

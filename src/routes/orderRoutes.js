@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+	getOrders,
 	createOrder,
 	getOrderById,
 	getOrdersByUserId,
@@ -10,7 +11,10 @@ import { checkLoggedIn, checkAdmin } from '../middleware/protectMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').post(checkLoggedIn, createOrder);
+router
+	.route('/')
+	.post(checkLoggedIn, createOrder)
+	.get(checkLoggedIn, checkAdmin, getOrders);
 router.route('/user/:id').get(checkLoggedIn, getOrdersByUserId);
 router
 	.route('/:id')
