@@ -60,4 +60,31 @@ const getStore = asyncHandler(async (req, res) => {
 	}
 });
 
-export { createStore, getStore };
+// @desc    Update a store
+// @route   PUT /store/:id
+// @access  Private (seller)
+const updateStore = asyncHandler(async (req, res) => {
+	const { storeName, storeDescription } = req.body;
+
+	// check if the store belongs to the user
+	const store = await StoreModel.findById(req.params.id);
+	if (store.owner.toString() !== req.session.user._id.toString()) {
+		res.status(401);
+		throw new Error('Not authorized to update this store!');
+	}
+
+	const updatedStore = await StoreModel.findByIdAndUpdate(
+		req.params.id,
+		{ storeName, storeDescription },
+		{ new: true }
+	);
+
+	if (updatedStore) {
+		res.json(updatedStore);
+	} else {
+		res.status(404);
+		throw new Error('Store not found!');
+	}
+});
+
+export { createStore, getStore, updateStore };
