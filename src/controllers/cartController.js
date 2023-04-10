@@ -35,10 +35,9 @@ const addItemToCart = asyncHandler(async (req, res) => {
 	} else {
 		// If the cart exists, check if the item is already in the cart
 		const itemExists = cart.items.find(
-			(item) => item.usedProductId === usedProductId
+			(item) => item._id.toString() === usedProductId.toString()
 		);
 
-		// If the item is not in the cart, add it
 		if (!itemExists) {
 			cart.items.push(usedProductId);
 			await cart.save();
