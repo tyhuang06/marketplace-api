@@ -5,6 +5,7 @@ import http from 'http';
 import session from 'express-session';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import storeRoutes from './routes/storeRoutes.js';
 
 const PORT = process.env.PORT || 8000;
 dotenv.config();
@@ -38,5 +39,6 @@ app.use(express.json());
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/store', storeRoutes);
 
 server.listen(PORT, console.log(`Server listening on port ${PORT}...`));
