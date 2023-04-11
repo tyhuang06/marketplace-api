@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+	getStores,
 	getStoreById,
 	getStoreByOwnerId,
 	createStore,
@@ -9,7 +10,7 @@ import { checkLoggedIn, checkSeller } from '../middleware/protectMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').post(createStore);
+router.route('/').post(createStore).get(getStores);
 router
 	.route('/:id')
 	.get(getStoreById)
