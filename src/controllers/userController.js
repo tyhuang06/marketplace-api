@@ -5,9 +5,23 @@ import UserModel from '../models/UserModel.js';
 // @route   GET /user
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const user = await UserModel.findById(req.session.user._id)
-		.populate('storeInfo')
-		.populate('following');
+	const user = await UserModel.findById(req.session.user._id).populate(
+		'following'
+	);
+
+	if (user) {
+		res.json(user);
+	} else {
+		res.status(404);
+		throw new Error('User not found!');
+	}
+});
+
+// @desc    Get user profile by id
+// @route   GET /user/:id
+// @access  Public
+const getUserProfileById = asyncHandler(async (req, res) => {
+	const user = await UserModel.findById(req.params.id).populate('following');
 
 	if (user) {
 		res.json(user);
@@ -68,4 +82,4 @@ const unfollowSeller = asyncHandler(async (req, res) => {
 	}
 });
 
-export { followSeller, unfollowSeller, getUserProfile };
+export { followSeller, unfollowSeller, getUserProfile, getUserProfileById };
