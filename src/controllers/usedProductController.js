@@ -45,7 +45,7 @@ const getUsedProductById = asyncHandler(async (req, res) => {
 const getUsedProductsByStoreId = asyncHandler(async (req, res) => {
 	const usedProducts = await UsedProductModel.find({
 		storeId: req.params.id,
-	});
+	}).populate('storeId');
 
 	if (usedProducts) {
 		res.json(usedProducts);
