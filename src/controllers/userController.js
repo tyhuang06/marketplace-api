@@ -31,6 +31,28 @@ const getUserProfileById = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc	Update user profile
+// @route	PUT /user
+// @access	Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+	const { profilePic } = req.body;
+
+	const updatedUser = await UserModel.findByIdAndUpdate(
+		req.session.user._id,
+		{
+			profilePic,
+		},
+		{ new: true }
+	);
+
+	if (updatedUser) {
+		res.json(updatedUser);
+	} else {
+		res.status(404);
+		throw new Error('User not found!');
+	}
+});
+
 // @desc    Follow a Seller
 // @route   POST /user/follow
 // @access  Private
@@ -82,4 +104,10 @@ const unfollowSeller = asyncHandler(async (req, res) => {
 	}
 });
 
-export { followSeller, unfollowSeller, getUserProfile, getUserProfileById };
+export {
+	followSeller,
+	unfollowSeller,
+	getUserProfile,
+	getUserProfileById,
+	updateUserProfile,
+};
