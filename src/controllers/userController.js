@@ -5,9 +5,9 @@ import UserModel from '../models/UserModel.js';
 // @route   GET /user
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const user = await UserModel.findById(req.session.user._id).populate(
-		'following'
-	);
+	const user = await UserModel.findById(req.session.user._id)
+		.populate('following')
+		.populate('followers');
 
 	if (user) {
 		res.json(user);
@@ -21,7 +21,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /user/:id
 // @access  Public
 const getUserProfileById = asyncHandler(async (req, res) => {
-	const user = await UserModel.findById(req.params.id).populate('following');
+	const user = await UserModel.findById(req.params.id)
+		.populate('following')
+		.populate('followers');
 
 	if (user) {
 		res.json(user);
@@ -70,13 +72,21 @@ const followSeller = asyncHandler(async (req, res) => {
 		throw new Error('You are already following this seller!');
 	}
 
+	// Update the user's following list
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		req.session.user._id,
 		{ $push: { following: targetUserId } },
 		{ new: true }
 	);
 
-	if (updatedUser) {
+	// Update the target user's followers list
+	const updatedTargetUser = await UserModel.findByIdAndUpdate(
+		targetUserId,
+		{ $push: { followers: req.session.user._id } },
+		{ new: true }
+	);
+
+	if (updatedUser && updatedTargetUser) {
 		res.status(201).json(updatedUser);
 	} else {
 		res.status(400);
@@ -90,13 +100,21 @@ const followSeller = asyncHandler(async (req, res) => {
 const unfollowSeller = asyncHandler(async (req, res) => {
 	const { targetUserId } = req.body;
 
+	// Update user's following list
 	const updatedUser = await UserModel.findByIdAndUpdate(
 		req.session.user._id,
 		{ $pull: { following: targetUserId } },
 		{ new: true }
 	);
 
-	if (updatedUser) {
+	// Update target user's followers list
+	const updatedTargetUser = await UserModel.findByIdAndUpdate(
+		targetUserId,
+		{ $pull: { followers: req.session.user._id } },
+		{ new: true }
+	);
+
+	if (updatedUser && updatedTargetUser) {
 		res.status(201).json(updatedUser);
 	} else {
 		res.status(400);

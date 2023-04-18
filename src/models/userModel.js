@@ -13,7 +13,19 @@ const UserSchema = new mongoose.Schema({
 	isAdmin: { type: Boolean, default: false },
 	isSeller: { type: Boolean, default: false },
 	isBuyer: { type: Boolean, default: true },
+	storeInfo: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Store',
+		default: null,
+	},
 	following: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			default: null,
+		},
+	],
+	followers: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',

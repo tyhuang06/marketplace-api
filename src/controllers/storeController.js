@@ -2,6 +2,23 @@ import asyncHandler from 'express-async-handler';
 import StoreModel from '../models/storeModel.js';
 import UserModel from '../models/UserModel.js';
 
+// helper
+const updateUserStoreInfoHelper = async (userId, storeId) => {
+	const updatedUser = await UserModel.findByIdAndUpdate(
+		userId,
+		{
+			storeInfo: storeId,
+		},
+		{ new: true }
+	);
+
+	if (updatedUser) {
+		return updatedUser;
+	} else {
+		return null;
+	}
+};
+
 // @desc	Get all stores
 // @route	GET /store
 // @access	Public
@@ -28,7 +45,7 @@ const createStore = asyncHandler(async (req, res) => {
 	});
 
 	if (store) {
-		/* // update user model with store info
+		// update user model with store info
 		const user = await UserModel.findById(store.owner);
 
 		if (user) {
@@ -36,7 +53,7 @@ const createStore = asyncHandler(async (req, res) => {
 		} else {
 			res.status(400);
 			throw new Error('User not found!');
-		} */
+		}
 
 		res.status(201).json(store);
 	} else {
